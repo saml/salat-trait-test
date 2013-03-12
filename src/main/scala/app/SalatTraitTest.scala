@@ -1,30 +1,24 @@
+package app
 
 import com.mongodb.DBObject
 import com.mongodb.casbah.Imports._
 import com.novus.salat._
-import com.novus.salat.global._
 import com.novus.salat.annotations._
+import model._
 
-
-@Salat
-trait Menu {
-  val title: String
-}
-case class MenuHeader(title: String = "", children: List[Menu]) extends Menu
-case class MenuItem(title: String = "", price: Double = 0.0) extends Menu
 
 object SalatTraitTest {
   implicit val ctx = new Context {
-    val name = "When-Necessary-Context"
+    val name = "Always-Typehint-Context"
     override val typeHintStrategy = StringTypeHintStrategy(when = TypeHintFrequency.Always, typeHint="_typeHint")
 
   }
 
-  val menu: Menu = MenuHeader("Dinner", List(
-    MenuHeader("Appetizer", List(
+  val menu: Menu = MenuHeader("Dinner", List[Menu](
+    MenuHeader("Appetizer", List[Menu](
       MenuItem("Spring Roll", 1.00),
       MenuItem("Chicken Tikka", 2.00),
-      MenuHeader("Children Only", List(
+      MenuHeader("Children Only", List[Menu](
         MenuItem("Ice Cream", 3.00)
       ))
     ))
