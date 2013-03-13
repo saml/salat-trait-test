@@ -14,12 +14,12 @@ object SalatTraitTest {
 
   }
 
-  val menu: Menu[String] = MenuHeader("Dinner", List[Menu[String]](
+  val menu: Menu = MenuHeader("Dinner", List[Menu](
     MenuHeader("", Nil),
-    MenuHeader("Appetizer", List[Menu[String]](
+    MenuHeader("Appetizer", List[Menu](
       MenuItem("Spring Roll", 1.00),
       MenuItem("Chicken Tikka", 2.00),
-      MenuHeader("Children Only", List[Menu[String]](
+      MenuHeader("Children Only", List[Menu](
         MenuItem("Ice Cream", 3.00)
       ))
     ))
@@ -41,7 +41,7 @@ object SalatTraitTest {
     ))
     println(dbo)
 
-    val obj: Menu[String] = grater[Menu[String]].asObject(dbo)
+    val obj: Menu = grater[Menu].asObject(dbo)
     println(obj)
 
   }
