@@ -15,6 +15,7 @@ object SalatTraitTest {
   }
 
   val menu: Menu[String] = MenuHeader("Dinner", List[Menu[String]](
+    MenuHeader("", Nil),
     MenuHeader("Appetizer", List[Menu[String]](
       MenuItem("Spring Roll", 1.00),
       MenuItem("Chicken Tikka", 2.00),
@@ -25,13 +26,23 @@ object SalatTraitTest {
   ))
 
   def main(args: Array[String]) = {
-    val dbo: DBObject = grater[Menu[String]].asDBObject(menu)
+    /*
+    {
+      "title": "Dinner",
+      "children": [{
+        "title": "",
+        "children": []
+       }]
+     }
+     */
+    val dbo: DBObject = MongoDBObject("title" -> "Dinner", "children" -> MongoDBList(
+      MongoDBObject("title" -> "", "children" -> MongoDBList())
+
+    ))
     println(dbo)
-    //{ "_typeHint" : "MenuHeader" , "title" : "Dinner" , "children" : [ [ "Appetizer" , [ [ "Spring Roll" , 1.0] , [ "Chicken Tikka" , 2.0] , [ "Children Only" , [ [ "Ice Cream" , 3.0]]]]]]}
 
     val obj: Menu[String] = grater[Menu[String]].asObject(dbo)
     println(obj)
-    //MenuHeader(Dinner,List(MenuHeader(Appetizer,List(MenuItem(Spring Roll,1.0), MenuItem(Chicken Tikka,2.0), MenuHeader(Children Only,List(MenuItem(Ice Cream,3.0)))))))
 
   }
 }
