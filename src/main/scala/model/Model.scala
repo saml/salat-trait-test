@@ -4,8 +4,8 @@ import com.novus.salat.annotations._
 
 
 @Salat
-trait Menu {
-  val title: String
+trait Menu[T] {
+  val title: T
 }
-case class MenuHeader(title: String = "", children: List[Menu]) extends Menu
-case class MenuItem(title: String = "", price: Double = 0.0) extends Menu
+case class MenuHeader[T](title: T, children: List[Menu[T]]) extends Menu[T]
+case class MenuItem[T](title: T, price: Double = 0.0) extends Menu[T]
