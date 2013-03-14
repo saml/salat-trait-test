@@ -1,16 +1,14 @@
 package app
 
-import com.mongodb.DBObject
 import com.mongodb.casbah.Imports._
 import com.novus.salat._
-import com.novus.salat.annotations._
 import model._
-
+import play.api.libs.json._
 
 object SalatTraitTest {
   implicit val ctx = new Context {
     val name = "Always-Typehint-Context"
-    override val typeHintStrategy = StringTypeHintStrategy(when = TypeHintFrequency.Always, typeHint="_typeHint")
+    override val typeHintStrategy = StringTypeHintStrategy(when = TypeHintFrequency.Always, typeHint = "_typeHint")
 
   }
 
@@ -26,15 +24,20 @@ object SalatTraitTest {
   ))
 
   def main(args: Array[String]) = {
-    /*
-    {
-      "title": "Dinner",
-      "children": [{
-        "title": "",
-        "children": []
-       }]
-     }
-     */
+    val json: JsValue = Json.parse(
+      """
+      {
+        "title": "Dinner",
+        "children": [{
+          "title": "",
+          "children": []
+         }]
+      }
+      """)
+
+    val menu: MenuHeader = Json.reads[MenuHeader]
+    println(menu)
+
     val dbo: DBObject = MongoDBObject("title" -> "Dinner", "children" -> MongoDBList(
       MongoDBObject("title" -> "", "children" -> MongoDBList())
 
